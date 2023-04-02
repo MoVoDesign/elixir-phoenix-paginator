@@ -20,10 +20,14 @@ defmodule Pagination.PaginationHelper do
   ```
   """
   def order_tag(%{order_by: order_by, paginator: %PaginatorState{} = paginator} = assigns) do
+    arrows =
+      Map.get(assigns, :arrows, %{})
+      |> IO.inspect()
+
     assigns =
       Map.merge(
         %{
-          arrow: order_arrow_indicator(paginator, order_by, Map.get(assigns, :arrows, %{}))
+          arrow: order_arrow_indicator(paginator, order_by, arrows)
         },
         assigns
       )
