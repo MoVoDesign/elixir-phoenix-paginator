@@ -28,7 +28,8 @@ defmodule Pagination.PaginationHelper do
     assigns =
       Map.merge(
         %{
-          arrow: arrow
+          arrow: arrow,
+          arrows: arrows
         },
         assigns
       )
