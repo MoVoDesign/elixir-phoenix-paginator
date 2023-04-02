@@ -11,7 +11,5 @@ Customisable order_tag. You can now specify the text for the order "asc"/"desc" 
 Initial release! 🎉
 
 ## TODO
-
-1. Configurable "asc" and "desc" tags for filter columns
-2. Good Tests
-3. Trim the deps
+1. Good Tests
+2. Trim the deps

@@ -16,7 +16,10 @@ defmodule Pagination.PaginationHelper do
   Provides a link to order following a given field
 
   ```
-  <.order_tag label="id" order_by={:id} paginator={@things} />
+  <.order_tag label="id"
+    order_by={:id}
+    paginator={@things}
+    arrows={%{asc: "A-Z", desc: "Z-A"}}/>
   ```
   """
   def order_tag(%{order_by: order_by, paginator: %PaginatorState{} = paginator} = assigns) do
@@ -59,6 +62,20 @@ defmodule Pagination.PaginationHelper do
   Provides links for pages 1...N and a select box for number of items per page.any()
   if `delta` is provided as an argument, it'll modify the boundaries around the current
   page. Default value for `delta` is 1.
+
+  The options for the number of items per page are defined in `Pagination.PaginatorState`
+
+  ```
+  per_page_items: [5, 10, 25, 0]
+  ```
+  0 stands for: all records
+
+
+  ```
+  <.page_tag
+    paginator={@things}
+    delta={2} />
+  ```
   """
   def page_tag(assigns) do
     # set defaults
@@ -140,6 +157,21 @@ defmodule Pagination.PaginationHelper do
   @spec search_filter_tag(any()) :: any()
   @doc """
   Generates inclusive filters (filter1 and filter2 and ...)
+
+  Filters are defined in `Pagination.PaginatorState` as tuples `{field, label}`
+
+  ```
+  filters: [id: "UID", title: "Item Title", field: "Label"]
+  ```
+
+  The button text can be configured using `label`
+
+  ```
+  <.search_filter_tag
+    paginator={@things}
+    label="Find" />
+  ```
+
   """
   def search_filter_tag(assigns) do
     assigns = Map.merge(%{label: "Go!"}, assigns)
