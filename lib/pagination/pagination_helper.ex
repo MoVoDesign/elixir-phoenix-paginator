@@ -1,6 +1,6 @@
 defmodule Pagination.PaginationHelper do
   @moduledoc """
-  contains helper functions to create
+  This module contains helper functions to create the following components:
   - order_by buttons
   - page links
   - filters
@@ -11,20 +11,14 @@ defmodule Pagination.PaginationHelper do
   alias Pagination.PaginatorState
 
   # attr :label, :string, required: true
-  @spec order_tag(%{
-          :label => String.t(),
-          :order_by => any,
-          :paginator => Pagination.PaginatorState.t(),
-          optional(any) => any
-        }) :: any()
+  @spec order_tag(any()) :: any()
   @doc """
-  provides a link to order following a given field
+  Provides a link to order following a given field
 
   ```
   <.order_tag label="id" order_by={:id} paginator={@things} />
   ```
   """
-
   def order_tag(
         %{label: label, order_by: order_by, paginator: %PaginatorState{} = paginator} = assigns
       ) do
@@ -46,12 +40,12 @@ defmodule Pagination.PaginationHelper do
 
   defp order_arrow_indicator(_, _), do: ""
 
+  @spec page_tag(any()) :: any()
   @doc """
-  provides links for pages 1...N and a select box for number of items per page.any()
+  Provides links for pages 1...N and a select box for number of items per page.any()
   if `delta` is provided as an argument, it'll modify the boundaries around the current
   page. Default value for `delta` is 1.
   """
-  @spec page_tag(any()) :: any()
   def page_tag(%{paginator: %PaginatorState{} = pg} = assigns) do
     # set defaults
     assigns = Map.merge(%{delta: 1}, assigns)
@@ -82,7 +76,6 @@ defmodule Pagination.PaginationHelper do
   end
 
   # displays a block of page numbers unless there's only one page
-
   defp page_indicators(_page, 1, _), do: ""
 
   defp page_indicators(page, page_nb, delta) do
@@ -132,7 +125,7 @@ defmodule Pagination.PaginationHelper do
   # === FILTER
   @spec search_filter_tag(any()) :: any()
   @doc """
-  generates inclusive filters (filter1 and filter2 and ...)
+  Generates inclusive filters (filter1 and filter2 and ...)
   """
   def search_filter_tag(assigns) do
     assigns = Map.merge(%{label: "Go!"}, assigns)

@@ -8,13 +8,13 @@ Paginator helpers are provided to help generating sorting fields, page fields et
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `paginator` to your list of dependencies in `mix.exs`:
+The package can be installed
+by adding `simple_pagination` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
   [
-    {:paginator, "~> 0.1"}
+    {:simple_pagination, "~> 0.1"}
   ]
 end
 ```
