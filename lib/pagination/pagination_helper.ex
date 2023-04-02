@@ -34,7 +34,7 @@ defmodule Pagination.PaginationHelper do
       )
 
     ~H"""
-    <a href="#" phx-click="paginate", phx-value-order_by={@order_by}><%= @label %></a><%= @arrow %>
+    <a href="#" phx-click="paginate", phx-value-order_by={@order_by}><%= @label %></a><%= order_arrow_indicator(@paginator, @order_by, @arrows) %>
     """
   end
 
