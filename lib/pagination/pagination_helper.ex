@@ -19,10 +19,14 @@ defmodule Pagination.PaginationHelper do
   <.order_tag label="id" order_by={:id} paginator={@things} />
   ```
   """
-  def order_tag(
-        %{label: label, order_by: order_by, paginator: %PaginatorState{} = paginator} = assigns
-      ) do
-    assigns = Map.merge(%{arrow: order_arrow_indicator(paginator, order_by)}, assigns)
+  def order_tag(%{order_by: order_by, paginator: %PaginatorState{} = paginator} = assigns) do
+    assigns =
+      Map.merge(
+        %{
+          arrow: order_arrow_indicator(paginator, order_by, Map.get(assigns, :arrows, %{}))
+        },
+        assigns
+      )
 
     ~H"""
     <a href="#" phx-click="paginate", phx-value-order_by={@order_by}><%= @label %></a><%= @arrow %>
@@ -30,15 +34,19 @@ defmodule Pagination.PaginationHelper do
   end
 
   # TODO: improve indivators or use given list
-  defp order_arrow_indicator(%PaginatorState{order_by: {direction, field}}, tag_order_by_field)
+  defp order_arrow_indicator(
+         %PaginatorState{order_by: {direction, field}},
+         tag_order_by_field,
+         %{} = arrows
+       )
        when field == tag_order_by_field do
     case direction do
-      :asc -> " (asc)"
-      _ -> " (desc)"
+      :asc -> Map.get(arrows, :asc, " (asc)")
+      _ -> Map.get(arrows, :desc, " (desc)")
     end
   end
 
-  defp order_arrow_indicator(_, _), do: ""
+  defp order_arrow_indicator(_, _, _), do: ""
 
   @spec page_tag(any()) :: any()
   @doc """
@@ -46,7 +54,7 @@ defmodule Pagination.PaginationHelper do
   if `delta` is provided as an argument, it'll modify the boundaries around the current
   page. Default value for `delta` is 1.
   """
-  def page_tag(%{paginator: %PaginatorState{} = pg} = assigns) do
+  def page_tag(assigns) do
     # set defaults
     assigns = Map.merge(%{delta: 1}, assigns)
 
@@ -56,7 +64,7 @@ defmodule Pagination.PaginationHelper do
       <form id="paginator" phx-change="paginate" style="display: inline">
         <select name="per_page_nb">
         <%= for pnb <- @paginator.per_page_items do %>
-          <%= per_page_tag_option(pnb, pg.per_page_nb) %>
+          <%= per_page_tag_option(pnb, @paginator.per_page_nb) %>
         <% end %>
         </select>
       </form>

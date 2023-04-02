@@ -1,7 +1,6 @@
 # Pagination
 
-A simple paginator package allowing you to paginate, order and filter data.
-Paginator helpers are provided to help generating sorting fields, page fields etc...
+This is a simple paginator package that allows you to paginate, order and filter data.
 
 
 ![alt text](assets/screenshot.png "Example")
@@ -25,7 +24,7 @@ See `Pagination.Paginator` for more details.
 
 ## CSS
 
-To customise Look and Feel, configure these classes:
+To customise the look and feel you can configure these classes:
 
 ```
 .paginator {

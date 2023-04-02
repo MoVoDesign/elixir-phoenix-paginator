@@ -1,16 +1,16 @@
 defmodule Pagination.Paginator do
   @moduledoc """
-  Provides Live Pagination for a given query.
+  This module provides live pagination for a given query.
 
-  This is module is paired with helper components used to help organize and present large
-  sets of data in a user-friendly way. It provides a mechanism for dividing data into
-  smaller, more manageable chunks or pages, and allows users to navigate through these
-  pages using a set of controls such as "next page," "previous page," and page numbers.
+  It is paired with helper components used to organize and present large
+  sets of data in a user-friendly way. It also provides a mechanism for dividing data into
+  smaller, more manageable chunks or pages and allows users to navigate through these
+  pages using a set of controls such as "next page", "previous page," and page numbers.
 
   In addition to pagination, this module offers features such as sorting, filtering,
   and search capabilities, allowing users to further refine and customize the data they see.
 
-  Let's see a sample `index.html.heex`:
+  Here's a sample `index.html.heex`:
 
   ```
     <.search_filter_tag paginator={@things} label="Find" />
@@ -31,8 +31,10 @@ defmodule Pagination.Paginator do
     </table>
   ```
 
-  Here `@things` is a PaginatorState including pagination parameters and resulting dataset.
-  Not that you can place `filters_tag`, `page_tag` and `order_tag` pretty much anywhere.
+  `@things` is a `Pagination.PaginatorState` that includes pagination parameters and the resulting dataset.
+
+  Do note that you can place `filters_tag`, `page_tag` and `order_tag` pretty much anywhere
+  in your page code.
 
   All changes are handled via event. The `paginate` event must be handled in `index.ex`
 
@@ -61,7 +63,7 @@ defmodule Pagination.Paginator do
     end
   ```
 
-  Check `Pagination.PaginatorState` struct for more details about pagination parameters.
+  Check the `Pagination.PaginatorState` structure for more details about pagination parameters.
   If complex filtering is required, create and add `maybe_apply_advanced_filtering/2`
   and refine the query as needed.
   """
@@ -70,8 +72,9 @@ defmodule Pagination.Paginator do
   import Ecto.Query, warn: false
 
   @doc """
-  this function paginates + filters the given query and returns an updated paginator
-  repo is your application `Ecto.Repo`.
+  This function paginates and filters the given query and returns an updated `Pagination.PaginatorState`.
+
+  `repo` is your application `Ecto.Repo`.
 
   Please note that you can add your own pagination extensions or complex filters by modifying
   the `query` before feeding it to `paginate/3`.
