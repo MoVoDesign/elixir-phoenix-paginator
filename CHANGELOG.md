@@ -13,3 +13,4 @@ Initial release! 🎉
 ## TODO
 1. Good Tests
 2. Trim the deps
+3. Cleanup the PaginatorState 

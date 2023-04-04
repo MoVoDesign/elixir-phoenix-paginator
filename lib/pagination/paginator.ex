@@ -53,7 +53,6 @@ defmodule Pagination.Paginator do
           attrs,
           %PaginatorState{} = pg \\ %PaginatorState{
             filters: [title: ""],
-            per_page_items: [5, 25, 0],
             order_by: {:asc, :title}
           }
         ) do
@@ -116,7 +115,8 @@ defmodule Pagination.Paginator do
 
   # preset per_page_nb to first possible choice if not set
   defp ensure_set_per_page_nb(%PaginatorState{per_page_nb: ppnb} = pg) when is_nil(ppnb),
-    do: %PaginatorState{pg | per_page_nb: List.first(pg.per_page_items, 10)}
+    # do: %PaginatorState{pg | per_page_nb: List.first(pg.per_page_items, 10)}
+    do: %PaginatorState{pg | per_page_nb: 0}
 
   defp ensure_set_per_page_nb(pg), do: pg
 

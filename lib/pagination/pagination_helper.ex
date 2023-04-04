@@ -74,19 +74,21 @@ defmodule Pagination.PaginationHelper do
   ```
   <.page_tag
     paginator={@things}
-    delta={2} />
+    delta={2}
+    selection={[3, 5, 10, 0]}
+    />
   ```
   """
   def page_tag(assigns) do
     # set defaults
-    assigns = Map.merge(%{delta: 1}, assigns)
+    assigns = Map.merge(%{delta: 1, per_page_items: [5, 10, 50, 0]}, assigns)
 
     ~H"""
     <div class="paginator pager" style="">
       <%= page_indicators(@paginator.page, @paginator.page_max, @delta) %>
       <form id="paginator" phx-change="paginate" style="display: inline">
         <select name="per_page_nb">
-        <%= for pnb <- @paginator.per_page_items do %>
+        <%= for pnb <- @per_page_items do %>
           <%= per_page_tag_option(pnb, @paginator.per_page_nb) %>
         <% end %>
         </select>

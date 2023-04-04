@@ -2,7 +2,7 @@ defmodule Pagination.MixProject do
   use Mix.Project
 
   @source_url "https://github.com/MoVoDesign/elixir-phoenix-paginator.git"
-  @doc_url "https://hexdocs.pm/simple_paginator"
+  @doc_url "https://hexdocs.pm/simple_pagination"
   @version "0.2.1"
 
   def project do
@@ -51,7 +51,8 @@ defmodule Pagination.MixProject do
       links: %{
         "GitHub" => @source_url,
         "Docs" => @doc_url
-      }
+      },
+      source_url: @source_url
     ]
   end
 

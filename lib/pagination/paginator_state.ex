@@ -4,7 +4,7 @@ defmodule Pagination.PaginatorState do
             page: 1,
             page_max: 1,
             per_page_nb: nil,
-            per_page_items: [5, 10, 20, 0],
+            # per_page_items: [5, 10, 20, 0],
             data: []
 
   @type t :: %__MODULE__{
@@ -20,7 +20,8 @@ defmodule Pagination.PaginatorState do
           # if nil -> set to the head of `per_page_items` or 10 (default)
           per_page_nb: nil | non_neg_integer(),
           # the list of possible selections for number of items to display per page
-          per_page_items: [non_neg_integer()],
+          # NOTE: why put it here and not in the helper?
+          # per_page_items: [non_neg_integer()],
           # the results
           data: []
         }
