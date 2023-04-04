@@ -1,4 +1,16 @@
 defmodule Pagination.PaginatorState do
+  @moduledoc """
+  The Paginator State structure
+  it defines properties that changes with user input
+  - `page` - current page displayed
+  - `page_max` - current last page index based on query results and `per_page_nb`
+  - `per_page_nb` - current selected number of records per page to display
+     (0 is used to display all records)
+  - `per_page_items` - list of possible selections
+  - `filters` an array of tuples {field_name, "label to show"}
+  as well as prooerties that
+  are required to setup default values
+  """
   defstruct order_by: {:asc, :id},
             filters: [],
             page: 1,
