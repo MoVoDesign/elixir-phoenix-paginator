@@ -3,7 +3,7 @@ defmodule Pagination.MixProject do
 
   @source_url "https://github.com/MoVoDesign/elixir-phoenix-paginator.git"
   @doc_url "https://hexdocs.pm/simple_paginator"
-  @version "0.2.1"
+  @version "0.3.0"
 
   def project do
     [
