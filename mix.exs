@@ -36,7 +36,7 @@ defmodule Pagination.MixProject do
       {:ecto_sql, ">= 3.6.0"},
       {:postgrex, ">= 0.13.0", optional: true},
       {:phoenix_html, ">= 3.0.0"},
-      {:phoenix_live_view, ">= 0.16.1"},
+      {:phoenix_live_view, ">= 0.17.1"},
       {:ex_doc, ">= 0.29.0", only: :dev},
       {:earmark, ">= 0.2.0", only: :dev},
       {:dialyxir, ">= 0.5.0", only: :dev}

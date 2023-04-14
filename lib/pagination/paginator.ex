@@ -85,9 +85,7 @@ defmodule Pagination.Paginator do
   |> Pagination.Paginator.paginate(pg, Repo)
   ```
   """
-  @spec paginate(Ecto.Query.t(), Pagination.PaginatorState.t(), Ecto.Repo.t()) ::
-          Pagination.PaginatorState.t()
-  def paginate(%Ecto.Query{} = query, %PaginatorState{} = pg, repo) do
+  def paginate(%Ecto.Query{} = query, %PaginatorState{} = pg, repo, options) do
     # IO.inspect(_w?: {__MODULE__, :paginate}, page_nb: record_nb, paginator: pg)
     pg = ensure_set_per_page_nb(pg)
 
@@ -106,9 +104,16 @@ defmodule Pagination.Paginator do
       |> maybe_apply_order(pg.order_by)
 
     # update data
-    data = from(q in paginated_query) |> repo.all()
+    data =
+      from(q in paginated_query)
+      |> maybe_preload(options)
+      |> repo.all()
+
     %PaginatorState{pg | data: data}
   end
+
+  defp maybe_preload(query, preload: preloads), do: from(q in query, preload: ^preloads)
+  defp maybe_preload(query, _), do: query
 
   # compute page numbers, if per_page number is 0: show "All"
   defp get_max_page(_, 0), do: 1
