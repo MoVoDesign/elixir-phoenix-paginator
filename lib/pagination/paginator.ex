@@ -85,7 +85,7 @@ defmodule Pagination.Paginator do
   |> Pagination.Paginator.paginate(pg, Repo)
   ```
   """
-  def paginate(%Ecto.Query{} = query, %PaginatorState{} = pg, repo, options) do
+  def paginate(%Ecto.Query{} = query, %PaginatorState{} = pg, repo, options \\ []) do
     # IO.inspect(_w?: {__MODULE__, :paginate}, page_nb: record_nb, paginator: pg)
     pg = ensure_set_per_page_nb(pg)
 
