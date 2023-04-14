@@ -82,7 +82,7 @@ defmodule Pagination.Paginator do
   ```
   list_things_query()
   |> apply_my_own_filters(pg_or_my_own_attributes)
-  |> Pagination.Paginator.paginate(pg, Repo)
+  |> Pagination.Paginator.paginate(pg, Repo, preload: [:relationship_table, :other_rel_table])
   ```
   """
   def paginate(%Ecto.Query{} = query, %PaginatorState{} = pg, repo, options \\ []) do
