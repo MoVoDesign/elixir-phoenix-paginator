@@ -1,14 +1,12 @@
 defmodule Pagination.Paginator do
   @moduledoc """
-  This module provides live pagination for a given query.
+  This module provides live pagination for a given query, paired with helper components
+  that organize and present large sets of data in a user-friendly way. It allows
+  data to be divided into smaller, more manageable pages and provides controls,
+  such as "next page," "previous page," and page numbers, to navigate through them.
 
-  It is paired with helper components used to organize and present large
-  sets of data in a user-friendly way. It also provides a mechanism for dividing data into
-  smaller, more manageable chunks or pages and allows users to navigate through these
-  pages using a set of controls such as "next page", "previous page," and page numbers.
-
-  In addition to pagination, this module offers features such as sorting, filtering,
-  and search capabilities, allowing users to further refine and customize the data they see.
+  In addition to pagination, this module offers sorting, filtering, and search capabilities
+  that allow users to further refine and customize the data they view."
 
   Here's a sample `index.html.heex`:
 
@@ -59,13 +57,21 @@ defmodule Pagination.Paginator do
         ) do
       list_things_query()
       |> maybe_apply_advanced_filtering(attrs)
-      |> Pagination.Paginator.paginate(Pagination.Paginator.change(pg, attrs))
+      |> Pagination.Paginator.paginate(Pagination.Paginator.change(pg, attrs), Repo)
     end
   ```
 
   Check the `Pagination.PaginatorState` structure for more details about pagination parameters.
   If complex filtering is required, create and add `maybe_apply_advanced_filtering/2`
   and refine the query as needed.
+
+  If for some reason you need to specify which elements are to be returned by the
+  `select` statement, just pass them as last attribute to paginate(
+
+  ```
+    Pagination.Paginator.paginate(query, paginator_state, Repo, [:id, :title])
+  ```
+
   """
   alias Pagination.PaginatorState
   # alias Paginator.Repo
@@ -82,10 +88,12 @@ defmodule Pagination.Paginator do
   ```
   list_things_query()
   |> apply_my_own_filters(pg_or_my_own_attributes)
-  |> Pagination.Paginator.paginate(pg, Repo, preload: [:relationship_table, :other_rel_table])
+  |> Pagination.Paginator.paginate(pg, Repo)
   ```
   """
-  def paginate(%Ecto.Query{} = query, %PaginatorState{} = pg, repo, options \\ []) do
+  @spec paginate(Ecto.Query.t(), Pagination.PaginatorState.t(), Ecto.Repo.t(), list()) ::
+          Pagination.PaginatorState.t()
+  def paginate(%Ecto.Query{} = query, %PaginatorState{} = pg, repo, selected_fields \\ []) do
     # IO.inspect(_w?: {__MODULE__, :paginate}, page_nb: record_nb, paginator: pg)
     pg = ensure_set_per_page_nb(pg)
 
@@ -106,14 +114,11 @@ defmodule Pagination.Paginator do
     # update data
     data =
       from(q in paginated_query)
-      |> maybe_preload(options)
+      |> maybe_select(selected_fields)
       |> repo.all()
 
     %PaginatorState{pg | data: data}
   end
-
-  defp maybe_preload(query, preload: preloads), do: from(q in query, preload: ^preloads)
-  defp maybe_preload(query, _), do: query
 
   # compute page numbers, if per_page number is 0: show "All"
   defp get_max_page(_, 0), do: 1
@@ -155,6 +160,10 @@ defmodule Pagination.Paginator do
 
   defp maybe_apply_order(%Ecto.Query{} = query, {order, column}),
     do: from(q in query, order_by: [{^order, ^column}])
+
+  # if the pagination is to be run only on certain elements, a list of atoms can be passed
+  defp maybe_select(query, []), do: query
+  defp maybe_select(query, list), do: from(q in query, select: ^list)
 
   # update paginator with attributes given
   # def update(%PaginatorState{} = pg, %{} = attrs) do
