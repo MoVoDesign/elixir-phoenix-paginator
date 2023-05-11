@@ -3,8 +3,6 @@
 This is a simple paginator package that allows you to paginate, order and filter data.
 
 
-![alt text](assets/screenshot.png "Example")
-
 ## Installation
 
 The package can be installed
